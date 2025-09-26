@@ -1,0 +1,385 @@
+/* Styling untuk aplikasi Catatan Harian */
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+
+/* Jam digital di kanan atas */
+
+.digital-clock {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+
+/* Container utama untuk layout dua kolom */
+
+.main-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    gap: 30px;
+}
+
+
+/* Kolom kiri untuk form */
+
+.left-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Kolom kanan untuk catatan */
+
+.right-column {
+    flex: 2;
+    min-width: 0;
+    /* Mencegah masalah overflow */
+}
+
+
+/* Tombol toggle form */
+
+.toggle-form-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.toggle-form-btn:hover {
+    background: #218838;
+}
+
+
+/* Form catatan */
+
+#noteForm {
+    max-width: 600px;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#noteForm.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+#noteForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+#noteForm input:not([type="checkbox"]):not([type="color"]),
+#noteForm textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+
+/* Styling untuk pilihan gaya teks */
+
+.text-styling-options {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.text-styling-options label {
+    font-weight: normal;
+    margin: 0;
+}
+
+.text-styling-options input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+.text-styling-options input[type="color"] {
+    width: 50px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.text-styling-options input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.text-styling-options input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 3px;
+}
+
+
+/* Styling untuk tombol form */
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#noteForm button {
+    padding: 12px 25px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+#noteForm button:hover {
+    background: #218838;
+}
+
+#cancelBtn {
+    background: #dc3545;
+}
+
+#cancelBtn:hover {
+    background: #c82333;
+}
+
+
+/* Styling untuk tab container */
+
+.tabs-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: #e0e0e0;
+    color: #333;
+    border: none;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.tab-button.active {
+    background: #28a745;
+    color: white;
+}
+
+.tab-content {
+    width: 100%;
+    padding: 20px;
+    background: white;
+    border-radius: 0 5px 5px 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-content.hidden {
+    display: none;
+}
+
+
+/* Styling untuk catatan individual */
+
+#notesContainer,
+#historyContainer {
+    width: 100%;
+    max-width: 800px;
+}
+
+.note {
+    background: #fffdf6;
+    padding: 20px 25px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(255, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.note h3 {
+    margin-top: 0;
+    color: #34495e;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.note p {
+    margin: 5px 0;
+    line-height: 1.6;
+    position: relative;
+    z-index: 2;
+}
+
+
+/* Styling untuk info waktu pembuatan */
+
+.note .creation-time {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.note .creation-time svg {
+    width: 12px;
+    height: 12px;
+}
+
+.note .note-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.note button {
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.note button.delete {
+    background: #dc3545;
+}
+
+.note button.delete:hover {
+    background: #c82333;
+}
+
+.note button.update {
+    background: #007bff;
+}
+
+.note button.update:hover {
+    background: #0069d9;
+}
+
+.note button.restore {
+    background: #28a745;
+}
+
+.note button.restore:hover {
+    background: #218838;
+}
+
+
+/* Styling khusus untuk catatan history */
+
+.history-note {
+    opacity: 0.8;
+    border-left: 3px solid #dc3545;
+}
+
+.history-note::before {
+    background-color: rgba(220, 53, 69, 0.2);
+}
+
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+    .left-column,
+    .right-column {
+        width: 100%;
+        max-width: 100%;
+    }
+    .digital-clock {
+        position: static;
+        margin-bottom: 20px;
+        width: 100%;
+        text-align: center;
+        background: #2c3e50;
+    }
+}
