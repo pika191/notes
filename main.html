@@ -5,23 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Catatan Harian & Pengingat</title>
-    <!-- Menambahkan Google Fonts untuk tampilan font yang lebih baik -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+</head>
 
-    <head>
+<body>
+    <!-- Tombol toggle tema gelap/terang -->
+    <div id="themeToggle" class="theme-toggle">
+        <svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    </div>
 
-        <body>
-            <!-- Tambahkan jam digital di kanan atas -->
-            <div id="digitalClock" class="digital-clock"></div>
+    <!-- Header dengan jam dan crypto prices -->
+    <div class="header-info">
+        <!-- Jam digital -->
+        <div id="digitalClock" class="digital-clock"></div>
 
-            <h1>Notes</h1>
+        <!-- Harga Cryptocurrency Real-time -->
+        <div id="cryptoPrices" class="crypto-prices">
+            <div class="crypto-header">
+                <span>💰 Crypto Prices (USD)</span>
+                <button id="refreshCrypto" class="refresh-btn">🔄</button>
+            </div>
+            <div id="cryptoContainer" class="crypto-container">
+                <div class="loading">Loading prices...</div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Tombol toggle untuk menampilkan/sembunyikan form -->
-            <div id="toggleFormBtn" class="toggle-form-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <h1>Catatan Harian dengan Pengingat</h1>
+
+    <!-- Tombol toggle untuk menampilkan/sembunyikan form -->
+    <div id="toggleFormBtn" class="toggle-form-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path>
       <path d="M16 3v4"></path>
       <path d="M8 3v4"></path>
@@ -29,54 +56,54 @@
       <path d="M11 15h1"></path>
       <path d="M12 15v3"></path>
     </svg>
-                <span>Tambah Catatan<span>
-  </div>
+        <span>Tambah Catatan</span>
+    </div>
 
-  <!-- Form catatan yang disembunyikan secara default -->
-  <form id="noteForm" class="hidden">
-    <input type="hidden" id="noteId">
-    <label>
+    <!-- Form catatan yang disembunyikan secara default -->
+    <form id="noteForm" class="hidden">
+        <input type="hidden" id="noteId">
+        <label>
       Judul Catatan:
       <input type="text" id="title" placeholder="Masukkan judul catatan" required>
     </label>
-    <label>
+        <label>
       Isi Catatan:
       <textarea id="content" placeholder="Masukkan isi catatan (Ctrl+B untuk bold, Ctrl+I untuk italic)"></textarea>
     </label>
-    <label>Pilihan Gaya Teks:</label>
-    <div class="text-styling-options">
-        <input type="checkbox" id="boldText"> <label for="boldText">Bold</label>
-        <input type="checkbox" id="italicText"> <label for="italicText"><Italiclabel>
-        <label for="fontColor">Warna Teks:</label>
-        <input type="color" id="fontColor" value="#000000">
-    </div>
-    <label>
+        <label>Pilihan Gaya Teks:</label>
+        <div class="text-styling-options">
+            <input type="checkbox" id="boldText"> <label for="boldText">Bold</label>
+            <input type="checkbox" id="italicText"> <label for="italicText">Italic</label>
+            <label for="fontColor">Warna Teks:</label>
+            <input type="color" id="fontColor" value="#000000">
+        </div>
+        <label>
       Atur Pengingat:
       <input type="datetime-local" id="reminder">
     </label>
-    <div class="form-buttons">
-      <button type="submit" id="submitBtn">Tambah Catatan</button>
-      <button type="button" id="cancelBtn" class="hidden">Batal</button>
+        <div class="form-buttons">
+            <button type="submit" id="submitBtn">Tambah Catatan</button>
+            <button type="button" id="cancelBtn" class="hidden">Batal</button>
+        </div>
+    </form>
+
+    <!-- Container untuk tab aktif dan history -->
+    <div class="tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="active">Catatan Aktif</button>
+            <button class="tab-button" data-tab="history">Riwayat Catatan</button>
+        </div>
+
+        <div id="activeNotes" class="tab-content active">
+            <div id="notesContainer"></div>
+        </div>
+
+        <div id="historyNotes" class="tab-content hidden">
+            <div id="historyContainer"></div>
+        </div>
     </div>
-  </form>
 
-  <!-- Container untuk tab aktif dan history -->
-  <div class="tabs-container">
-    <div class="tab-buttons">
-      <button class="tab-button active" data-tab="active">Catatan Aktif</button>
-      <button class="tab-button" data-tab="history">Riwayat Catatan</button>
-    </div>
-
-    <div id="activeNotes" class="tab-content active">
-      <div id="notesContainer"></div><think>
-
-<div>
-
-    <div id="historyNotes" class="tab-content hidden">
-      <div id="historyContainer"></div>
-    </div>
-  </div>
-
-  <script src="app.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>

@@ -1,70 +1,214 @@
-/* Styling untuk aplikasi Catatan Harian */
+:root {
+    --bg-color: #f7f7f7;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --primary-color: #28a745;
+    --primary-hover: #218838;
+    --danger-color: #dc3545;
+    --info-color: #17a2b8;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --note-bg: #fffdf6;
+    --history-note-border: rgba(220, 53, 69, 0.2);
+    --clock-bg: rgba(0, 0, 0, 0.7);
+    --clock-text: #ffffff;
+    --crypto-bg: #f8f9fa;
+    --crypto-border: #e9ecef;
+    --price-up: #28a745;
+    --price-down: #dc3545;
+}
+
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #f5f5f5;
+    --card-bg: #1e1e1e;
+    --primary-color: #38b857;
+    --primary-hover: #2d9a49;
+    --danger-color: #e03a40;
+    --info-color: #19b5c5;
+    --border-color: #444;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --note-bg: #2d2d2d;
+    --history-note-border: rgba(220, 53, 69, 0.3);
+    --clock-bg: rgba(0, 0, 0, 0.9);
+    --clock-text: #ffffff;
+    --crypto-bg: #1e1e1e;
+    --crypto-border: #444;
+    --price-up: #38b857;
+    --price-down: #e03a40;
+}
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f7f7f7;
+    background-color: var(--bg-color);
     margin: 0;
     padding: 20px;
-    color: #333;
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
-/* Jam digital di kanan atas */
+/* Tombol toggle tema */
 
-.digital-clock {
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+
+/* Header info container */
+
+.header-info {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* Jam digital */
+
+.digital-clock {
+    background: var(--clock-bg);
+    color: var(--clock-text);
     padding: 10px 15px;
     border-radius: 5px;
     font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 10px var(--shadow-color);
+    text-align: center;
+}
+
+
+/* Crypto prices container */
+
+.crypto-prices {
+    background: var(--crypto-bg);
+    border: 1px solid var(--crypto-border);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    min-width: 280px;
+    max-width: 320px;
+}
+
+.crypto-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.refresh-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background-color: var(--border-color);
+}
+
+.crypto-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.crypto-item {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    background: var(--card-bg);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.crypto-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.crypto-symbol {
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 2px;
+}
+
+.crypto-price {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.crypto-change {
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.price-up {
+    color: var(--price-up);
+}
+
+.price-down {
+    color: var(--price-down);
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 12px;
+    padding: 10px;
+}
+
+.error {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--danger-color);
+    font-size: 12px;
+    padding: 10px;
 }
 
 h1 {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-color);
     margin-bottom: 30px;
-}
-
-
-/* Container utama untuk layout dua kolom */
-
-.main-container {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    margin-top: 20px;
-    gap: 30px;
-}
-
-
-/* Kolom kiri untuk form */
-
-.left-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-/* Kolom kanan untuk catatan */
-
-.right-column {
-    flex: 2;
-    min-width: 0;
-    /* Mencegah masalah overflow */
+    margin-top: 120px;
+    /* Tambah margin untuk crypto prices */
 }
 
 
@@ -75,7 +219,7 @@ h1 {
     align-items: center;
     gap: 10px;
     padding: 10px 20px;
-    background: #28a745;
+    background: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -86,7 +230,7 @@ h1 {
 }
 
 .toggle-form-btn:hover {
-    background: #218838;
+    background: var(--primary-hover);
 }
 
 
@@ -97,9 +241,9 @@ h1 {
     width: 100%;
     margin-bottom: 30px;
     padding: 20px;
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px var(--shadow-color);
     transition: all 0.3s ease;
     opacity: 1;
     transform: translateY(0);
@@ -115,17 +259,21 @@ h1 {
     display: block;
     margin: 10px 0 5px;
     font-weight: bold;
+    color: var(--text-color);
 }
 
 #noteForm input:not([type="checkbox"]):not([type="color"]),
 #noteForm textarea {
     width: calc(100% - 20px);
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 16px;
     margin-bottom: 15px;
     box-sizing: border-box;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
@@ -142,6 +290,7 @@ h1 {
 .text-styling-options label {
     font-weight: normal;
     margin: 0;
+    color: var(--text-color);
 }
 
 .text-styling-options input[type="checkbox"] {
@@ -153,7 +302,7 @@ h1 {
     width: 50px;
     height: 30px;
     padding: 0;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     cursor: pointer;
     background: none;
@@ -182,7 +331,7 @@ h1 {
 
 #noteForm button {
     padding: 12px 25px;
-    background: #28a745;
+    background: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -192,11 +341,11 @@ h1 {
 }
 
 #noteForm button:hover {
-    background: #218838;
+    background: var(--primary-hover);
 }
 
 #cancelBtn {
-    background: #dc3545;
+    background: var(--danger-color);
 }
 
 #cancelBtn:hover {
@@ -220,8 +369,8 @@ h1 {
 
 .tab-button {
     padding: 10px 20px;
-    background: #e0e0e0;
-    color: #333;
+    background: var(--border-color);
+    color: var(--text-color);
     border: none;
     border-radius: 5px 5px 0 0;
     cursor: pointer;
@@ -230,16 +379,17 @@ h1 {
 }
 
 .tab-button.active {
-    background: #28a745;
+    background: var(--primary-color);
     color: white;
 }
 
 .tab-content {
     width: 100%;
     padding: 20px;
-    background: white;
+    background: var(--card-bg);
     border-radius: 0 5px 5px 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px var(--shadow-color);
+    color: var(--text-color);
 }
 
 .tab-content.hidden {
@@ -256,14 +406,16 @@ h1 {
 }
 
 .note {
-    background: #fffdf6;
+    background: var(--note-bg);
     padding: 20px 25px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color);
     border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px var(--shadow-color);
     margin-bottom: 20px;
     position: relative;
     overflow: hidden;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .note::before {
@@ -279,8 +431,8 @@ h1 {
 
 .note h3 {
     margin-top: 0;
-    color: #34495e;
-    border-bottom: 1px solid #f0f0f0;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
     margin-bottom: 15px;
     position: relative;
@@ -306,6 +458,10 @@ h1 {
     gap: 5px;
 }
 
+.dark-theme .note .creation-time {
+    color: #aaa;
+}
+
 .note .creation-time svg {
     width: 12px;
     height: 12px;
@@ -328,7 +484,7 @@ h1 {
 }
 
 .note button.delete {
-    background: #dc3545;
+    background: var(--danger-color);
 }
 
 .note button.delete:hover {
@@ -336,19 +492,19 @@ h1 {
 }
 
 .note button.update {
-    background: #007bff;
+    background: var(--info-color);
 }
 
 .note button.update:hover {
-    background: #0069d9;
+    background: #138daa;
 }
 
 .note button.restore {
-    background: #28a745;
+    background: var(--primary-color);
 }
 
 .note button.restore:hover {
-    background: #218838;
+    background: var(--primary-hover);
 }
 
 
@@ -356,30 +512,33 @@ h1 {
 
 .history-note {
     opacity: 0.8;
-    border-left: 3px solid #dc3545;
+    border-left: 3px solid var(--danger-color);
 }
 
 .history-note::before {
-    background-color: rgba(220, 53, 69, 0.2);
+    background-color: var(--history-note-border);
 }
 
 
 /* Responsive layout */
 
 @media (max-width: 768px) {
-    .main-container {
-        flex-direction: column;
-    }
-    .left-column,
-    .right-column {
+    .header-info {
+        position: static;
         width: 100%;
-        max-width: 100%;
+        margin-bottom: 20px;
+        align-items: center;
     }
-    .digital-clock {
+    .crypto-prices {
+        min-width: auto;
+        max-width: 100%;
+        width: 100%;
+    }
+    h1 {
+        margin-top: 20px;
+    }
+    .theme-toggle {
         position: static;
         margin-bottom: 20px;
-        width: 100%;
-        text-align: center;
-        background: #2c3e50;
     }
 }
