@@ -1,544 +1,585 @@
-:root {
-    --bg-color: #f7f7f7;
-    --text-color: #333;
-    --card-bg: #ffffff;
-    --primary-color: #28a745;
-    --primary-hover: #218838;
-    --danger-color: #dc3545;
-    --info-color: #17a2b8;
-    --border-color: #e0e0e0;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --note-bg: #fffdf6;
-    --history-note-border: rgba(220, 53, 69, 0.2);
-    --clock-bg: rgba(0, 0, 0, 0.7);
-    --clock-text: #ffffff;
-    --crypto-bg: #f8f9fa;
-    --crypto-border: #e9ecef;
-    --price-up: #28a745;
-    --price-down: #dc3545;
-}
-
-.dark-theme {
-    --bg-color: #121212;
-    --text-color: #f5f5f5;
-    --card-bg: #1e1e1e;
-    --primary-color: #38b857;
-    --primary-hover: #2d9a49;
-    --danger-color: #e03a40;
-    --info-color: #19b5c5;
-    --border-color: #444;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-    --note-bg: #2d2d2d;
-    --history-note-border: rgba(220, 53, 69, 0.3);
-    --clock-bg: rgba(0, 0, 0, 0.9);
-    --clock-text: #ffffff;
-    --crypto-bg: #1e1e1e;
-    --crypto-border: #444;
-    --price-up: #38b857;
-    --price-down: #e03a40;
-}
-
-body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: var(--bg-color);
-    margin: 0;
-    padding: 20px;
-    color: var(--text-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-/* Tombol toggle tema */
-
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: var(--card-bg);
-    color: var(--text-color);
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-
-/* Header info container */
-
-.header-info {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-/* Jam digital */
-
-.digital-clock {
-    background: var(--clock-bg);
-    color: var(--clock-text);
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    text-align: center;
-}
-
-
-/* Crypto prices container */
-
-.crypto-prices {
-    background: var(--crypto-bg);
-    border: 1px solid var(--crypto-border);
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    min-width: 280px;
-    max-width: 320px;
-}
-
-.crypto-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    font-weight: bold;
-    font-size: 14px;
-    color: var(--text-color);
-}
-
-.refresh-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 2px;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-}
-
-.refresh-btn:hover {
-    background-color: var(--border-color);
-}
-
-.crypto-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    font-size: 12px;
-}
-
-.crypto-item {
-    display: flex;
-    flex-direction: column;
-    padding: 6px;
-    background: var(--card-bg);
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
-}
-
-.crypto-item:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px var(--shadow-color);
-}
-
-.crypto-symbol {
-    font-weight: bold;
-    color: var(--text-color);
-    margin-bottom: 2px;
-}
-
-.crypto-price {
-    font-weight: bold;
-    font-size: 11px;
-}
-
-.crypto-change {
-    font-size: 10px;
-    margin-top: 2px;
-}
-
-.price-up {
-    color: var(--price-up);
-}
-
-.price-down {
-    color: var(--price-down);
-}
-
-.loading {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: var(--text-color);
-    font-size: 12px;
-    padding: 10px;
-}
-
-.error {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: var(--danger-color);
-    font-size: 12px;
-    padding: 10px;
-}
-
-h1 {
-    text-align: center;
-    color: var(--text-color);
-    margin-bottom: 30px;
-    margin-top: 120px;
-    /* Tambah margin untuk crypto prices */
-}
-
-
-/* Tombol toggle form */
-
-.toggle-form-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-    margin-bottom: 20px;
-}
-
-.toggle-form-btn:hover {
-    background: var(--primary-hover);
-}
-
-
-/* Form catatan */
-
-#noteForm {
-    max-width: 600px;
-    width: 100%;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px var(--shadow-color);
-    transition: all 0.3s ease;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#noteForm.hidden {
-    display: none;
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-#noteForm label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-    color: var(--text-color);
-}
-
-#noteForm input:not([type="checkbox"]):not([type="color"]),
-#noteForm textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    background-color: var(--card-bg);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-/* Styling untuk pilihan gaya teks */
-
-.text-styling-options {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.text-styling-options label {
-    font-weight: normal;
-    margin: 0;
-    color: var(--text-color);
-}
-
-.text-styling-options input[type="checkbox"] {
-    width: auto;
-    margin-right: 5px;
-}
-
-.text-styling-options input[type="color"] {
-    width: 50px;
-    height: 30px;
-    padding: 0;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
-    background: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-.text-styling-options input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-
-.text-styling-options input[type="color"]::-webkit-color-swatch {
-    border: none;
-    border-radius: 3px;
-}
-
-
-/* Styling untuk tombol form */
-
-.form-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-#noteForm button {
-    padding: 12px 25px;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-}
-
-#noteForm button:hover {
-    background: var(--primary-hover);
-}
-
-#cancelBtn {
-    background: var(--danger-color);
-}
-
-#cancelBtn:hover {
-    background: #c82333;
-}
-
-
-/* Styling untuk tab container */
-
-.tabs-container {
-    width: 100%;
-    max-width: 1200px;
-    margin-top: 20px;
-}
-
-.tab-buttons {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.tab-button {
-    padding: 10px 20px;
-    background: var(--border-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 5px 5px 0 0;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
-
-.tab-button.active {
-    background: var(--primary-color);
-    color: white;
-}
-
-.tab-content {
-    width: 100%;
-    padding: 20px;
-    background: var(--card-bg);
-    border-radius: 0 5px 5px 5px;
-    box-shadow: 0 4px 10px var(--shadow-color);
-    color: var(--text-color);
-}
-
-.tab-content.hidden {
-    display: none;
-}
-
-
-/* Styling untuk catatan individual */
-
-#notesContainer,
-#historyContainer {
-    width: 100%;
-    max-width: 800px;
-}
-
-.note {
-    background: var(--note-bg);
-    padding: 20px 25px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    box-shadow: 0 4px 10px var(--shadow-color);
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.note::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 15px;
-    bottom: 0;
-    width: 2px;
-    background-color: rgba(255, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.note h3 {
-    margin-top: 0;
-    color: var(--text-color);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 2;
-}
-
-.note p {
-    margin: 5px 0;
-    line-height: 1.6;
-    position: relative;
-    z-index: 2;
-}
-
-
-/* Styling untuk info waktu pembuatan */
-
-.note .creation-time {
-    font-size: 0.8em;
-    color: #7f8c8d;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.dark-theme .note .creation-time {
-    color: #aaa;
-}
-
-.note .creation-time svg {
-    width: 12px;
-    height: 12px;
-}
-
-.note .note-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.note button {
-    padding: 8px 15px;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease;
-}
-
-.note button.delete {
-    background: var(--danger-color);
-}
-
-.note button.delete:hover {
-    background: #c82333;
-}
-
-.note button.update {
-    background: var(--info-color);
-}
-
-.note button.update:hover {
-    background: #138daa;
-}
-
-.note button.restore {
-    background: var(--primary-color);
-}
-
-.note button.restore:hover {
-    background: var(--primary-hover);
-}
-
-
-/* Styling khusus untuk catatan history */
-
-.history-note {
-    opacity: 0.8;
-    border-left: 3px solid var(--danger-color);
-}
-
-.history-note::before {
-    background-color: var(--history-note-border);
-}
-
-
-/* Responsive layout */
-
-@media (max-width: 768px) {
-    .header-info {
-        position: static;
-        width: 100%;
-        margin-bottom: 20px;
-        align-items: center;
+     :root {
+        --bg-color: #ffffff;
+        --text-color: #2c3e50;
+        --card-bg: #ffffff;
+        --primary-color: #3498db;
+        --primary-hover: #2980b9;
+        --danger-color: #e74c3c;
+        --success-color: #27ae60;
+        --border-color: #ecf0f1;
+        --shadow-color: rgba(52, 152, 219, 0.1);
+        --note-bg: #ffffff;
+        --clock-bg: rgba(44, 62, 80, 0.95);
+        --clock-text: #ffffff;
+        --crypto-bg: #ffffff;
+        --crypto-border: #ecf0f1;
+        --price-up: #27ae60;
+        --price-down: #e74c3c;
+        --week-task-bg: #f8f9fa;
+        --week-task-border: #e9ecef;
+        --accent-color: #8e44ad;
     }
-    .crypto-prices {
-        min-width: auto;
-        max-width: 100%;
-        width: 100%;
+    
+    .dark-theme {
+        --bg-color: #1a1a1a;
+        --text-color: #ecf0f1;
+        --card-bg: #2c3e50;
+        --primary-color: #3498db;
+        --primary-hover: #2980b9;
+        --danger-color: #e74c3c;
+        --success-color: #27ae60;
+        --border-color: #34495e;
+        --shadow-color: rgba(52, 152, 219, 0.2);
+        --note-bg: #2c3e50;
+        --clock-bg: rgba(236, 240, 241, 0.95);
+        --clock-text: #2c3e50;
+        --crypto-bg: #2c3e50;
+        --crypto-border: #34495e;
+        --week-task-bg: #34495e;
+        --week-task-border: #4a6278;
+        --accent-color: #9b59b6;
     }
-    h1 {
-        margin-top: 20px;
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    /* Minimalist theme toggle */
+    
     .theme-toggle {
-        position: static;
-        margin-bottom: 20px;
+        position: fixed;
+        top: 24px;
+        left: 24px;
+        width: 48px;
+        height: 48px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        cursor: pointer;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
     }
-}
+    
+    .theme-toggle:hover {
+        background: var(--border-color);
+        transform: translateY(-1px);
+    }
+    /* Header info - minimalist layout */
+    
+    .header-info {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    /* Minimalist digital clock */
+    
+    .digital-clock {
+        background: var(--clock-bg);
+        color: var(--clock-text);
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    /* Week Task Container - New Feature */
+    
+    .week-task-container {
+        background: var(--week-task-bg);
+        border: 1px solid var(--week-task-border);
+        border-radius: 12px;
+        padding: 16px;
+        margin: 16px 0;
+        max-width: 320px;
+    }
+    
+    .week-task-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .week-task-title {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+    
+    .week-progress {
+        font-size: 12px;
+        color: var(--accent-color);
+        font-weight: 500;
+    }
+    
+    .week-task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .week-task-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border-radius: 6px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        transition: all 0.2s ease;
+    }
+    
+    .week-task-item:hover {
+        background: var(--border-color);
+    }
+    
+    .week-task-checkbox {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--border-color);
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    .week-task-checkbox.completed {
+        background: var(--success-color);
+        border-color: var(--success-color);
+    }
+    
+    .week-task-text {
+        font-size: 13px;
+        color: var(--text-color);
+        flex: 1;
+    }
+    
+    .week-task-text.completed {
+        text-decoration: line-through;
+        opacity: 0.6;
+    }
+    /* Minimalist crypto prices */
+    
+    .crypto-prices {
+        background: var(--crypto-bg);
+        border: 1px solid var(--crypto-border);
+        border-radius: 12px;
+        padding: 16px;
+        backdrop-filter: blur(10px);
+        min-width: 280px;
+        max-width: 320px;
+    }
+    
+    .crypto-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .crypto-header span {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+    
+    .refresh-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        padding: 4px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+        color: var(--text-color);
+    }
+    
+    .refresh-btn:hover {
+        background: var(--border-color);
+    }
+    
+    .crypto-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .crypto-item {
+        padding: 12px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
+    
+    .crypto-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    
+    .crypto-symbol {
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--text-color);
+        margin-bottom: 4px;
+    }
+    
+    .crypto-price {
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+    
+    .crypto-change {
+        font-size: 11px;
+        margin-top: 4px;
+        font-weight: 500;
+    }
+    /* Main content container */
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 120px 24px 40px;
+    }
+    /* Minimalist typography */
+    
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        text-align: center;
+        color: var(--text-color);
+        margin-bottom: 40px;
+        letter-spacing: -0.02em;
+    }
+    /* Simplified toggle form button */
+    
+    .toggle-form-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        margin-bottom: 32px;
+    }
+    
+    .toggle-form-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+    /* Minimalist form styling */
+    
+    #noteForm {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+        transition: all 0.3s ease;
+    }
+    
+    #noteForm.hidden {
+        display: none;
+    }
+    
+    #noteForm label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+    
+    #noteForm input:not([type="checkbox"]):not([type="color"]),
+    #noteForm textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        font-size: 14px;
+        margin-bottom: 16px;
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        transition: all 0.2s ease;
+        font-family: inherit;
+    }
+    
+    #noteForm input:focus,
+    #noteForm textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+    
+    #noteForm textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    /* Text styling options - minimalist */
+    
+    .text-styling-options {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+        padding: 12px;
+        background: var(--border-color);
+        border-radius: 8px;
+    }
+    
+    .text-styling-options label {
+        font-size: 13px;
+        font-weight: 400;
+        margin: 0;
+    }
+    
+    .text-styling-options input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+        accent-color: var(--primary-color);
+    }
+    
+    .text-styling-options input[type="color"] {
+        width: 32px;
+        height: 32px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    /* Form buttons */
+    
+    .form-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+    }
+    
+    #noteForm button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    #noteForm button[type="submit"] {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    #noteForm button[type="submit"]:hover {
+        background: var(--primary-hover);
+    }
+    
+    #cancelBtn {
+        background: var(--border-color);
+        color: var(--text-color);
+    }
+    
+    #cancelBtn:hover {
+        background: var(--danger-color);
+        color: white;
+    }
+    /* Minimalist tabs */
+    
+    .tabs-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .tab-buttons {
+        display: flex;
+        gap: 2px;
+        margin-bottom: 24px;
+        background: var(--border-color);
+        padding: 4px;
+        border-radius: 8px;
+    }
+    
+    .tab-button {
+        flex: 1;
+        padding: 12px 16px;
+        background: transparent;
+        color: var(--text-color);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .tab-button.active {
+        background: var(--card-bg);
+        color: var(--primary-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .tab-content {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 24px;
+    }
+    
+    .tab-content.hidden {
+        display: none;
+    }
+    /* Minimalist note cards */
+    
+    .note {
+        background: var(--note-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        transition: all 0.2s ease;
+    }
+    
+    .note:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    
+    .note h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 12px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 8px;
+    }
+    
+    .note p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text-color);
+        margin-bottom: 8px;
+    }
+    
+    .note .creation-time {
+        font-size: 12px;
+        color: #7f8c8d;
+        margin: 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .note .note-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+    }
+    
+    .note button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .note button.delete {
+        background: var(--danger-color);
+        color: white;
+    }
+    
+    .note button.update {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .note button.restore {
+        background: var(--success-color);
+        color: white;
+    }
+    
+    .note button:hover {
+        transform: translateY(-1px);
+    }
+    /* History notes styling */
+    
+    .history-note {
+        opacity: 0.8;
+        border-left: 3px solid var(--danger-color);
+    }
+    /* Loading and error states */
+    
+    .loading,
+    .error {
+        text-align: center;
+        padding: 20px;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+    
+    .error {
+        color: var(--danger-color);
+    }
+    /* Responsive design */
+    
+    @media (max-width: 768px) {
+        .header-info {
+            position: static;
+            width: 100%;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+        .container {
+            padding: 20px 16px;
+        }
+        .crypto-prices,
+        .week-task-container {
+            max-width: 100%;
+        }
+        .theme-toggle {
+            position: static;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        .text-styling-options {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .form-buttons {
+            flex-direction: column;
+        }
+        .tab-buttons {
+            flex-direction: column;
+            gap: 4px;
+        }
+    }
