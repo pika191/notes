@@ -1,7 +1,7 @@
-daily simple local notes to boost productivity
+daily simple local notes to boost productivity <br>
 
--set up-
-clone the project
-install live server in code editor
-run with live server
-done
+-set up- <br>
+clone the project  <br>
+install live server in code editor <br>
+run with live server <br>
+done <br>
