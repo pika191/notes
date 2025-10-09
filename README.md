@@ -9,3 +9,4 @@ done <br>
 
 set up the online ver later<br>
 only for test purpose<br>
+next updates dark theme, fix bug and live server<br> 
